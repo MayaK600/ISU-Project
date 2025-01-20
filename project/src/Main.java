@@ -159,7 +159,7 @@ public class Main {
                     String item = sc.nextLine().toLowerCase();
                     while (!item.equals("harry potter") && !item.equals("percy jackson") && !item.equals("the inheritance games")) {
                         System.out.println("invalid input, please check spelling, please insert again");
-                        item = sc.nextLine();
+                        item = sc.nextLine().toLowerCase();
                     }
                     if (item.equals("harry potter")) {
                         System.out.println("How many would you like to add (max is 2)\nTo add none, enter 0");
@@ -213,17 +213,30 @@ public class Main {
             keepShopping=sc.nextLine();
         }
         }
-        // The breakdown of the cart. I am subtracting the starting amount by what is left to determine how much was added to the cart
+        // The breakdown of the cart
         System.out.println("Here is Your cart: ");
-        System.out.println("Hoodies: " +(itemAmounts.get(0)));
-        System.out.println("T-shirts: " + (itemAmounts.get(1)));
-        System.out.println("Pants: " +(itemAmounts.get(2)));
-        System.out.println("Ipads: " +(itemAmounts.get(3)));
-        System.out.println("Laptops: "+ (itemAmounts.get(4)));
-        System.out.println("Phones: "+ (itemAmounts.get(5)));
-        System.out.println("Harry Potter: " + (itemAmounts.get(6)));
-        System.out.println("Percy Jackson: " + (itemAmounts.get(7)));
-        System.out.println("The Inheritance Games: "+ (itemAmounts.get(8)));
+        for (int i=0;i<=8;i++) {
+            if (itemAmounts.get(i) > 0) {
+                if (i == 0)
+                    System.out.println("There are " + itemAmounts.get(0) + " hoodies");
+                else if (i == 1)
+                    System.out.println("There are " + itemAmounts.get(1) + " t-shirts");
+                else if (i == 2)
+                    System.out.println("There are " + itemAmounts.get(2) + " pants");
+                else if (i == 3)
+                    System.out.println("There are " + itemAmounts.get(3) + " ipads");
+                else if (i == 4)
+                    System.out.println("There are " + itemAmounts.get(4) + " laptops");
+                else if (i == 5)
+                    System.out.println("There are " + itemAmounts.get(5) + " phones ");
+                else if (i == 6)
+                    System.out.println("There are " + itemAmounts.get(6) + " \"harry Potter\" copies ");
+                else if (i == 7)
+                    System.out.println("There are " + itemAmounts.get(7) + " \"Percy Jackson\" copies");
+                else
+                    System.out.println("There are " + itemAmounts.get(8) + " \"The inheritance Games\" copies ");
+            }
+        }
         System.out.println("your cart at the moment is worth " + totalCost);
         //Allowing the user to change their cart
         System.out.println("would you like to change anything? Note: if you enter no, your order will be confirmed");
@@ -234,7 +247,7 @@ public class Main {
                 String change = sc.nextLine().toLowerCase();
                 while (!change.equals("hoodies") && !change.equals("t-shirts") && !change.equals("pants") && !change.equals("ipads") && !change.equals("laptops") && !change.equals("phones") && !change.equals("harry potter") && !change.equals("percy jackson") && !change.equals("the inheritance games")) {
                     System.out.println("invalid input, please check for correct spelling (do not forget to add an 's' to the end)");
-                    change=sc.nextLine();
+                    change=sc.nextLine().toLowerCase();
                 } //To make sure that the input is valid and the program can read it
                 switch(change) {
                     case "hoodies":
@@ -244,15 +257,22 @@ public class Main {
                         sc.nextLine();
                         // To make sure that the user does not add more than available to cart nor less than zero
                         while ((itemAmounts.get(0) + amount > 1) || ((itemAmounts.get(0) + amount) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(0) + amount > 1){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         //To change the amount of items in the cart
                         itemAmounts.set(0, itemAmounts.get(0) + amount);
                         //To add to the cost (if it is negative than it will remove from the total cost)
                         totalCost=totalCost+(amount*30);
-                        System.out.println("You have updated the hoodie(s) to a quantity of: " + (itemAmounts.get(0)));
+                        System.out.println("You have updated the hoodie(s) to a quantity of: " + (itemAmounts.get(0))+ "\nTotal Cost is "+totalCost);
                         break;
                         //Same thing to t-shirts
                     case "t-shirts":
@@ -261,13 +281,20 @@ public class Main {
                         int amount1 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(1) + amount1 > 5) || ((itemAmounts.get(1) + amount1) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount1 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(1) + amount1 > 5){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount1=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount1 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(1, itemAmounts.get(1) + amount1);
                         totalCost=totalCost+(amount1*18);
-                        System.out.println("You have updated the t-shirt(s) to a quantity of: " + (itemAmounts.get(1)));
+                        System.out.println("You have updated the t-shirt(s) to a quantity of: " + (itemAmounts.get(1))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "pants":
                         System.out.println("You currently have: " + (itemAmounts.get(2)) + " pants. Currently we have 7 available for purchase");
@@ -275,13 +302,20 @@ public class Main {
                         int amount2 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(2) + amount2 > 7) || ((itemAmounts.get(2) + amount2) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount2 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(2) + amount2 > 7){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount2=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount2 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(2, itemAmounts.get(2) + amount2);
                         totalCost=totalCost+(amount2*27);
-                        System.out.println("You have updated the pants to a quantity of: " + (itemAmounts.get(2)));
+                        System.out.println("You have updated the pants to a quantity of: " + (itemAmounts.get(2))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "ipads":
                         System.out.println("You currently have: " + (itemAmounts.get(3)) + " ipads. Currently we have 10 available for purchase");
@@ -289,13 +323,20 @@ public class Main {
                         int amount3 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(3) + amount3 > 10) || ((itemAmounts.get(3) + amount3) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount3 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(3) + amount3 > 10){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount3=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount3 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(3, itemAmounts.get(3) + amount3);
                         totalCost=totalCost+(amount3*700);
-                        System.out.println("You have updated the ipads to a quantity of: " + (itemAmounts.get(3)));
+                        System.out.println("You have updated the ipads to a quantity of: " + (itemAmounts.get(3))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "laptops":
                         System.out.println("You currently have: " + (itemAmounts.get(4)) + " laptops. Currently we have 3 available for purchase");
@@ -303,13 +344,20 @@ public class Main {
                         int amount4 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(4) + amount4 > 3) || ((itemAmounts.get(4) + amount4) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount4 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(4) + amount4 > 3){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount4=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount4 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(4, itemAmounts.get(4) + amount4);
                         totalCost=totalCost+(amount4*1010);
-                        System.out.println("You have updated the laptops to a quantity of: " + (itemAmounts.get(4)));
+                        System.out.println("You have updated the laptops to a quantity of: " + (itemAmounts.get(4))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "phones":
                         System.out.println("You currently have: " + (itemAmounts.get(5)) + " phones. Currently we have 9 available for purchase");
@@ -317,13 +365,20 @@ public class Main {
                         int amount5 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(5) + amount5 > 9) || ((itemAmounts.get(5) + amount5) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount5 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(5) + amount5 > 9){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount5=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount5 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(5, itemAmounts.get(5) + amount5);
                         totalCost=totalCost+(amount5*350);
-                        System.out.println("You have updated the phones to a quantity of: " + (itemAmounts.get(5)));
+                        System.out.println("You have updated the phones to a quantity of: " + (itemAmounts.get(5))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "harry potter":
                         System.out.println("You currently have: " + (itemAmounts.get(6)) + "\"Harry Potter\" copies. Currently we have 2 available for purchase");
@@ -331,13 +386,20 @@ public class Main {
                         int amount6 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(6) + amount6 > 2) || ((itemAmounts.get(6) + amount6) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount6 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(6) + amount6 > 2){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount6=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount6 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(6, itemAmounts.get(6) + amount6);
                         totalCost=totalCost+(amount6*50);
-                        System.out.println("You have updated the \"Harry Potter\" copies to a quantity of: " + (itemAmounts.get(6)));
+                        System.out.println("You have updated the \"Harry Potter\" copies to a quantity of: " + (itemAmounts.get(6))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "percy jackson":
                         System.out.println("You currently have: " + (itemAmounts.get(7)) + " \"Percy Jackson\" copies. Currently we have 6 available for purchase");
@@ -345,13 +407,20 @@ public class Main {
                         int amount7 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(7) + amount7 > 6) || ((itemAmounts.get(7) + amount7) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount7 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(7) + amount7 > 6){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount7=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount7 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(7, itemAmounts.get(7) + amount7);
                         totalCost=totalCost+(amount7*30);
-                        System.out.println("You have updated the \"Percy Jackson\" copies to a quantity of: " + (itemAmounts.get(7)));
+                        System.out.println("You have updated the \"Percy Jackson\" copies to a quantity of: " + (itemAmounts.get(7))+ "\nTotal Cost is "+totalCost);
                         break;
                     case "the inheritance games":
                         System.out.println("You currently have: " + (itemAmounts.get(8)) + " \"The Inheritance Games\" copies. Currently we have 4 available for purchase");
@@ -359,13 +428,20 @@ public class Main {
                         int amount8 = sc.nextInt();
                         sc.nextLine();
                         while ((itemAmounts.get(8) + amount8 > 4) || ((itemAmounts.get(8) + amount8) < 0)) {
-                            System.out.println("invalid input, please enter again");
-                            amount8 = sc.nextInt();
-                            sc.nextLine();
+                            if (itemAmounts.get(8) + amount8 > 4){
+                                System.out.println("we do not have that many in stock, please enter again");
+                                amount8=sc.nextInt();
+                                sc.nextLine();
+                            }
+                            else {
+                                System.out.println("Please ensure the amount does not go below 0, and enter again");
+                                amount8 = sc.nextInt();
+                                sc.nextLine();
+                            }
                         }
                         itemAmounts.set(8, itemAmounts.get(8) + amount8);
                         totalCost=totalCost+(amount8*100);
-                        System.out.println("You have updated the \"The Inheritance Games\" copies to a quantity of: " + (itemAmounts.get(8)));
+                        System.out.println("You have updated the \"The Inheritance Games\" copies to a quantity of: " + (itemAmounts.get(8))+ "\nTotal Cost is "+totalCost);
                         break;
                 }
                 //Allowing user to change more items
@@ -374,19 +450,133 @@ public class Main {
             }
             //Final cart and cost
             System.out.println("Here is Your cart: ");
-            System.out.println("Hoodies: " +(itemAmounts.get(0)));
-            System.out.println("T-shirts: " + (itemAmounts.get(1)));
-            System.out.println("Pants: " +(itemAmounts.get(2)));
-            System.out.println("Ipads: " +(itemAmounts.get(3)));
-            System.out.println("Laptops: "+ (itemAmounts.get(4)));
-            System.out.println("Phones: "+ (itemAmounts.get(5)));
-            System.out.println("Harry Potter: " + (itemAmounts.get(6)));
-            System.out.println("Percy Jackson: " + (itemAmounts.get(7)));
-            System.out.println("The Inheritance Games: "+ (itemAmounts.get(8)));
+            for (int i=0;i<=8;i++) {
+                if (itemAmounts.get(i) > 0) {
+                    if (i == 0)
+                        System.out.println("There are " + itemAmounts.get(0) + " hoodies");
+                    else if (i == 1)
+                        System.out.println("There are " + itemAmounts.get(1) + " t-shirts");
+                    else if (i == 2)
+                        System.out.println("There are " + itemAmounts.get(2) + " pants");
+                    else if (i == 3)
+                        System.out.println("There are " + itemAmounts.get(3) + " ipads");
+                    else if (i == 4)
+                        System.out.println("There are " + itemAmounts.get(4) + " laptops");
+                    else if (i == 5)
+                        System.out.println("There are " + itemAmounts.get(5) + " phones ");
+                    else if (i == 6)
+                        System.out.println("There are " + itemAmounts.get(6) + " \"harry Potter\" copies ");
+                    else if (i == 7)
+                        System.out.println("There are " + itemAmounts.get(7) + " \"Percy Jackson\" copies");
+                    else
+                        System.out.println("There are " + itemAmounts.get(8) + " \"The inheritance Games\" copies ");
+                }
+            }
             System.out.println("your cart at the moment is worth " + totalCost);
+            System.out.println("would you like to remove anything? ");
+            String answer=sc.nextLine().toLowerCase();
+            while (!answer.equals("yes") && !answer.equals("no")){
+                System.out.println("Please check spelling and enter again");
+                answer=sc.nextLine().toLowerCase();
+            }
+            if (answer.equals ("yes")){
+                String stay1="";
+                while (!stay1.equals("no")) {
+                    System.out.println("which item would you like to remove from cart? ");
+                    String remove = sc.nextLine().toLowerCase();
+                    while (!remove.equals("hoodies") && !remove.equals("t-shirts") && !remove.equals("pants") && !remove.equals("ipads") && !remove.equals("laptops") && !remove.equals("phones") && !remove.equals("harry potter") && !remove.equals("percy jackson") && !remove.equals("the inheritance games")) {
+                        System.out.println("invalid input, please check for correct spelling (do not forget to add an 's' to the end )");
+                        remove = sc.nextLine().toLowerCase();
+                    } //To make sure that the input is valid and the program can read it
+                    if (remove.equals("hoodies")){
+                        System.out.println(itemAmounts.get(0) + " hoodies were removed");
+                        totalCost-=(itemAmounts.get(0)*30);
+                        itemAmounts.set(0,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                   else  if (remove.equals("t-shirts")){
+                        System.out.println(itemAmounts.get(1) + " t-shirts were removed");
+                        totalCost-=(itemAmounts.get(1)*18);
+                        itemAmounts.set(1,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("pants")){
+                        System.out.println(itemAmounts.get(2) + " pants were removed");
+                        totalCost-=(itemAmounts.get(2)*27);
+                        itemAmounts.set(2,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("ipads")){
+                        System.out.println(itemAmounts.get(3) + " ipads were removed");
+                        totalCost-=(itemAmounts.get(3)*700);
+                        itemAmounts.set(3,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("laptops")){
+                        System.out.println(itemAmounts.get(4) + " laptops were removed");
+                        totalCost-=(itemAmounts.get(4)*1010);
+                        itemAmounts.set(4,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("phones")){
+                        System.out.println(itemAmounts.get(5) + " phones were removed");
+                        totalCost-=(itemAmounts.get(5)*350);
+                        itemAmounts.set(5,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("harry potter")){
+                        System.out.println(itemAmounts.get(6) + " \"Harry Potter\" copies  were removed");
+                        totalCost-=(itemAmounts.get(6)*50);
+                        itemAmounts.set(6,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else if (remove.equals("percy jackson")){
+                        System.out.println(itemAmounts.get(7) + " \"Percy Jackson\" copies were removed");
+                        totalCost-=(itemAmounts.get(7)*30);
+                        itemAmounts.set(7,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+                    }
+                    else{
+                        System.out.println(itemAmounts.get(8) + " \"The Inheritance Games\" copies were removed");
+                        totalCost-=(itemAmounts.get(8)*100);
+                        itemAmounts.set(8,0);
+                        System.out.println("Updated cart is now worth: " + totalCost);
+
+                    }
+                    System.out.println("would you like to remove another item?");
+                    stay1=sc.nextLine().toLowerCase();
+                    while (!stay1.equals("yes") && !stay1.equals("no")){
+                        System.out.println("please check spelling and enter again");
+                        stay1=sc.nextLine().toLowerCase();
+                    }
+                }
+                System.out.println("Here is Your cart: ");
+                for (int i=0;i<=8;i++) {
+                    if (itemAmounts.get(i) > 0) {
+                        if (i == 0)
+                            System.out.println("There are " + itemAmounts.get(0) + " hoodies");
+                        else if (i == 1)
+                            System.out.println("There are " + itemAmounts.get(1) + " t-shirts");
+                        else if (i == 2)
+                            System.out.println("There are " + itemAmounts.get(2) + " pants");
+                        else if (i == 3)
+                            System.out.println("There are " + itemAmounts.get(3) + " ipads");
+                        else if (i == 4)
+                            System.out.println("There are " + itemAmounts.get(4) + " laptops");
+                        else if (i == 5)
+                            System.out.println("There are " + itemAmounts.get(5) + " phones ");
+                        else if (i == 6)
+                            System.out.println("There are " + itemAmounts.get(6) + " \"harry Potter\" copies ");
+                        else if (i == 7)
+                            System.out.println("There are " + itemAmounts.get(7) + " \"Percy Jackson\" copies");
+                        else
+                            System.out.println("There are " + itemAmounts.get(8) + " \"The inheritance Games\" copies ");
+                    }
+                }
+                System.out.println("your cart at the moment is worth " + totalCost);
+            }
         }
         System.out.println("Thank you for shopping at Costos!");
-
         //Allowing you to log in as admin
         System.out.println("would you like to log in as admin?");
         if (sc.nextLine().equals ("yes") || sc.nextLine().equals ("Yes") ) {
@@ -400,29 +590,27 @@ public class Main {
             //Creating an array for all the unshipped items and changing them later
            String[] shipping={"Not shipped","Not shipped","Not shipped","Not shipped","Not shipped","Not shipped","Not shipped","Not shipped","Not shipped"};
             System.out.println("Welcome, here is the following list of the items that need to be shipped");
-            for (int item : itemAmounts) {
-                if (item > 0) {
-                    int index = itemAmounts.indexOf(item);
+            for (int i=0;i<=8;i++) {
+                if (itemAmounts.get(i) > 0) {
                     //Allowing the admit to see which items need to be shipped and how many
-                    if (index == 0)
+                    if (i== 0)
                         System.out.println("There are " + itemAmounts.get(0) + " hoodies ready to ship");
-                    else if (index == 1)
+                    else if (i == 1)
                         System.out.println("There are " + itemAmounts.get(1) + " t-shirts ready to ship");
-                    else if (index == 2)
+                    else if (i== 2)
                         System.out.println("There are " + itemAmounts.get(2) + " pants ready to ship");
-                    else if (index == 3)
+                    else if (i== 3)
                         System.out.println("There are " + itemAmounts.get(3) + " ipads ready to ship");
-                    else if (index == 4)
+                    else if (i== 4)
                         System.out.println("There are " + itemAmounts.get(4) + " laptops ready to ship");
-                    else if (index == 5)
+                    else if (i== 5)
                         System.out.println("There are " + itemAmounts.get(5) + " phones ready to ship");
-                    else if (index == 6)
+                    else if (i== 6)
                         System.out.println("There are " + itemAmounts.get(6) + " \"harry Potter\" copies ready to ship");
-                    else if (index == 7)
+                    else if (i== 7)
                         System.out.println("There are " + itemAmounts.get(7) + " \"Percy Jackson\" copies ready to ship");
                     else
                         System.out.println("There are " + itemAmounts.get(8) + " \"The inheritance Games\" copies ready to ship");
-
                 }
             }
             //Asking admin which one they want to ship and then changing the status of the shipment
@@ -544,25 +732,24 @@ public class Main {
                 }
             }
             //Finally allowing the admin to see all the final changes made to the shipping
-            for (int item : itemAmounts) {
-                if (item > 0) {
-                    int index = itemAmounts.indexOf(item);
-                    //Allowing the admit to see which items need to be shipped and how many
-                    if (index == 0)
+            for (int i=0;i<=8;i++) {
+                if (itemAmounts.get(i)>0) {
+                    //Allowing the admit to see which items were shipped
+                    if (i == 0)
                         System.out.println("There are " + itemAmounts.get(0) + " hoodies: "+ shipping[0]);
-                    else if (index == 1)
+                    else if (i== 1)
                         System.out.println("There are " + itemAmounts.get(1) + " t-shirts: " + shipping[1]);
-                    else if (index == 2)
+                    else if (i== 2)
                         System.out.println("There are " + itemAmounts.get(2) + " pants: "+ shipping[2]);
-                    else if (index == 3)
+                    else if (i== 3)
                         System.out.println("There are " + itemAmounts.get(3) + " ipads: " + shipping[3]);
-                    else if (index == 4)
+                    else if (i== 4)
                         System.out.println("There are " + itemAmounts.get(4) + " laptops: " + shipping[4]);
-                    else if (index == 5)
+                    else if (i== 5)
                         System.out.println("There are " + itemAmounts.get(5) + " phones: " +shipping[5]);
-                    else if (index == 6)
+                    else if (i== 6)
                         System.out.println("There are " + itemAmounts.get(6) + " \"harry Potter\" copies: " +shipping[6]);
-                    else if (index == 7)
+                    else if (i== 7)
                         System.out.println("There are " + itemAmounts.get(7) + " \"Percy Jackson\" copies : " + shipping[7]);
                     else
                         System.out.println("There are " + itemAmounts.get(8) + " \"The inheritance Games\" copies: " + shipping[8]);
